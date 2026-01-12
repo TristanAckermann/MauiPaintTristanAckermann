@@ -1,8 +1,11 @@
-﻿namespace MauiPaintTristanAckermann.Views;
+﻿using System;
+using Microsoft.Maui.Controls;
 
-public partial class DrawPage : ContentPage
+namespace MauiPaintTristanAckermann.Views;
+
+public partial class GalleryPage : ContentPage
 {
-    public DrawPage()
+    public GalleryPage()
     {
         InitializeComponent();
     }

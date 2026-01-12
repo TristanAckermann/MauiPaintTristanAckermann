@@ -1,12 +1,18 @@
-﻿using MauiPaintTristanAckermann.ViewModels;
+﻿using System;
+using Microsoft.Maui.Controls;
 
 namespace MauiPaintTristanAckermann.Views;
 
 public partial class DrawPage : ContentPage
 {
-    public DrawPage(DrawViewModel vm)
+    public DrawPage()
     {
         InitializeComponent();
-        BindingContext = vm;
+    }
+
+    private void OnClearClicked(object sender, EventArgs e)
+    {
+        
+        MainDrawingView.Lines.Clear();
     }
 }

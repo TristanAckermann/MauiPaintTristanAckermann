@@ -5,7 +5,8 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
-        
-        MainPage = new NavigationPage(new Views.DrawPage()); 
+
+        // Lädt die Shell, damit die TabBar unten erscheint
+        MainPage = new AppShell(); 
     }
 }

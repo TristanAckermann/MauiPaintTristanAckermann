@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MauiPaintTristanAckermann.Views.DrawPage"
              Title="Zeichnen">
 
     <Grid RowDefinitions="*, Auto">
         
-        <GraphicsView Grid.Row="0"
-                      BackgroundColor="White"
-                      HorizontalOptions="FillAndExpand"
-                      VerticalOptions="FillAndExpand">
-        </GraphicsView>
+        <toolkit:DrawingView x:Name="MainDrawingView"
+                             Grid.Row="0"
+                             LineColor="Black"
+                             LineWidth="5"
+                             IsMultiLineModeEnabled="True"
+                             BackgroundColor="White" />
 
         <HorizontalStackLayout Grid.Row="1" 
                                Spacing="10" 
@@ -19,6 +21,7 @@
                                HorizontalOptions="Center">
             
             <Button Text="Löschen" 
+                    Clicked="OnClearClicked"
                     BackgroundColor="Red" 
                     TextColor="White" />
             
