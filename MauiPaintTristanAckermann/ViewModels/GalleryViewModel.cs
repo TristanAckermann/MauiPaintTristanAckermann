@@ -1,43 +1,19 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using MauiPaintTristanAckermann.Models;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using MauiPaintTristanAckermann.Services;
-using System.Collections.ObjectModel;
+using Microsoft.Maui.Controls;
 
 namespace MauiPaintTristanAckermann.ViewModels;
 
-public partial class GalleryViewModel : BaseViewModel
+public partial class GalleryViewModel : ObservableObject
 {
-    private readonly IStorageService _storageService;
+    private readonly IDrawingService _drawingService;
 
-    [ObservableProperty]
-    private ObservableCollection<Drawing> drawings = new();
+    // Die View bindet an diese Eigenschaft
+    public ObservableCollection<ImageSource> GalleryImages => _drawingService.GalleryImages;
 
-    public GalleryViewModel(IStorageService storageService)
+    public GalleryViewModel(IDrawingService drawingService)
     {
-        _storageService = storageService;
-        Title = "Meine Galerie";
-    }
-
-    [RelayCommand]
-    public async Task LoadGallery()
-    {
-        IsBusy = true;
-        var list = await _storageService.GetGallery();
-        Drawings = new ObservableCollection<Drawing>(list);
-        IsBusy = false;
-    }
-
-    [RelayCommand]
-    private async Task Delete(Drawing drawing)
-    {
-        if (drawing == null) return;
-        
-        bool confirm = await Shell.Current.DisplayAlert("Löschen", "Möchtest du dieses Bild wirklich löschen?", "Ja", "Nein");
-        if (confirm)
-        {
-            Drawings.Remove(drawing);
-            // Hier müsste im StorageService noch eine Delete-Methode aufgerufen werden
-        }
+        _drawingService = drawingService;
     }
 }

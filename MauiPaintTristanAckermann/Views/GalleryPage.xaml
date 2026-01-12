@@ -2,15 +2,27 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:MauiPaintTristanAckermann.ViewModels"
-             x:DataType="vm:GalleryViewModel"
              x:Class="MauiPaintTristanAckermann.Views.GalleryPage"
              Title="Galerie">
-    
-    <CollectionView ItemsSource="{Binding Drawings}">
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="x:String">
-                <Label Text="{Binding .}" Padding="10" />
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+
+    <Grid Padding="20">
+        <CollectionView ItemsSource="{Binding GalleryImages}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="0" HasShadow="True" CornerRadius="10" HeightRequest="200" IsClippedToBounds="True">
+                        <Image Source="{Binding .}" Aspect="AspectFill" />
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Label Text="Noch keine Kunstwerke gespeichert." 
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center" 
+                       FontSize="18" />
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
 </ContentPage>

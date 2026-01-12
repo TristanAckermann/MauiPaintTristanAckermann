@@ -13,25 +13,27 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseMauiCommunityToolkit() // Wichtig für die UI-Tools!
+            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        // 1. Services registrieren
+        // SERVICES (Wichtig: Singleton damit Daten erhalten bleiben)
+        builder.Services.AddSingleton<IDrawingService, DrawingService>();
         builder.Services.AddSingleton<ValidationService>();
 
-        // 2. ViewModels registrieren
+        // VIEWMODELS
         builder.Services.AddTransient<AccountViewModel>();
         builder.Services.AddTransient<ProfileSummaryViewModel>();
         builder.Services.AddTransient<GalleryViewModel>();
 
-        // 3. Pages registrieren
+        // PAGES
         builder.Services.AddTransient<DrawPage>();
         builder.Services.AddTransient<AccountPage>();
         builder.Services.AddTransient<ProfileSummaryPage>();
+        builder.Services.AddTransient<GalleryPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -3,32 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MauiPaintTristanAckermann.Views.DrawPage"
-             Title="Zeichnen">
+             Title="Zeichnen"
+             BackgroundColor="#E0E0E0">
 
-    <Grid RowDefinitions="*, Auto">
-        
-        <toolkit:DrawingView x:Name="MainDrawingView"
-                             Grid.Row="0"
-                             LineColor="Black"
-                             LineWidth="5"
-                             IsMultiLineModeEnabled="True"
-                             BackgroundColor="White" />
+    <Grid RowDefinitions="*, Auto" Padding="15">
+        <Grid Grid.Row="0" ColumnDefinitions="*, 70" ColumnSpacing="10">
+            <Frame x:Name="CanvasFrame" Grid.Column="0" Padding="0" CornerRadius="5" HasShadow="True" BorderColor="Transparent" BackgroundColor="White">
+                <Grid x:Name="LayerContainer">
+                    <toolkit:DrawingView x:Name="Layer1" 
+                                         LineColor="Black" 
+                                         LineWidth="5" 
+                                         IsMultiLineModeEnabled="True" 
+                                         BackgroundColor="White" />
+                </Grid>
+            </Frame>
 
-        <HorizontalStackLayout Grid.Row="1" 
-                               Spacing="10" 
-                               Padding="10" 
-                               BackgroundColor="#F0F0F0"
-                               HorizontalOptions="Center">
-            
-            <Button Text="Löschen" 
-                    Clicked="OnClearClicked"
-                    BackgroundColor="Red" 
-                    TextColor="White" />
-            
-            <Button Text="Farbe" 
-                    BackgroundColor="{StaticResource Primary}" 
-                    TextColor="White" />
+            <ScrollView Grid.Column="1">
+                <VerticalStackLayout x:Name="LayerButtonList" Spacing="10">
+                    <ImageButton Source="layer_plus.png" WidthRequest="50" HeightRequest="50" Padding="8" Clicked="OnAddLayerClicked">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="#00CED1" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    
+                    <ImageButton x:Name="BtnLayer1" Source="layers.png" WidthRequest="50" HeightRequest="50" Padding="8" BackgroundColor="#222222" Clicked="OnLayerButtonClicked" CommandParameter="1">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="#00CED1" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
 
-        </HorizontalStackLayout>
-    </Grid>
-</ContentPage>
+        <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="10">
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Slider x:Name="SizeSlider" Minimum="1" Maximum="50" Value="5" WidthRequest="180" ValueChanged="OnSliderValueChanged" />
+                <Label Text="{Binding Source={x:Reference SizeSlider}, Path=Value, StringFormat='{0:F0}'}" VerticalOptions="Center" TextColor="Black" />
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Button WidthRequest="35" HeightRequest="35" CornerRadius="17" BackgroundColor="Black" Clicked="OnColorSelected" />
+                <Button WidthRequest="35" HeightRequest="35" CornerRadius="17" BackgroundColor="Red" Clicked="OnColorSelected" />
+                <Button WidthRequest="35" HeightRequest="35" CornerRadius="17" BackgroundColor="Blue" Clicked="OnColorSelected" />
+                <Label Text="|" VerticalOptions="Center" Margin="5,0" />
+                <Button Text="💾" WidthRequest="45" HeightRequest="45" CornerRadius="22" BackgroundColor="#4CAF50" Clicked="OnSaveClicked" />
+                <Button Text="🗑️" WidthRequest="45" HeightRequest="45" CornerRadius="22" BackgroundColor="#D32F2F" Clicked="OnClearClicked" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>

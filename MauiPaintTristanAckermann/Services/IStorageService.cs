@@ -19,11 +19,19 @@ public class StorageService : IStorageService
     public async Task SaveProfile(UserProfile profile) => 
         await File.WriteAllTextAsync(ProfilePath, JsonConvert.SerializeObject(profile));
 
-    public async Task<UserProfile> GetProfile() => 
-        File.Exists(ProfilePath) ? JsonConvert.DeserializeObject<UserProfile>(await File.ReadAllTextAsync(ProfilePath)) : new UserProfile();
+    public async Task<UserProfile> GetProfile()
+    {
+        if (!File.Exists(ProfilePath)) return new UserProfile();
+        var json = await File.ReadAllTextAsync(ProfilePath);
+        return JsonConvert.DeserializeObject<UserProfile>(json) ?? new UserProfile();
+    }
 
-    public async Task<List<Drawing>> GetGallery() => 
-        File.Exists(GalleryPath) ? JsonConvert.DeserializeObject<List<Drawing>>(await File.ReadAllTextAsync(GalleryPath)) : new List<Drawing>();
+    public async Task<List<Drawing>> GetGallery()
+    {
+        if (!File.Exists(GalleryPath)) return new List<Drawing>();
+        var json = await File.ReadAllTextAsync(GalleryPath);
+        return JsonConvert.DeserializeObject<List<Drawing>>(json) ?? new List<Drawing>();
+    }
 
     public async Task AddToGallery(Drawing drawing)
     {
