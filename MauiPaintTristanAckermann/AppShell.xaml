@@ -3,12 +3,24 @@
     x:Class="MauiPaintTristanAckermann.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:MauiPaintTristanAckermann"
-    Title="MauiPaintTristanAckermann">
+    xmlns:views="clr-namespace:MauiPaintTristanAckermann.Views"
+    Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+    <TabBar>
+        <Tab Title="Zeichnen" Icon="brush_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:DrawPage}" />
+        </Tab>
+        <Tab Title="Galerie" Icon="palette_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:GalleryPage}" />
+        </Tab>
+        <Tab Title="Pinsel" Icon="brush_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:PresetsPage}" />
+        </Tab>
+        <Tab Title="Export" Icon="palette_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ExportPage}" />
+        </Tab>
+        <Tab Title="Konto" Icon="palette_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate views:AccountPage}" />
+        </Tab>
+    </TabBar>
 </Shell>

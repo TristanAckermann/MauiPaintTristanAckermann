@@ -1,0 +1,21 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiPaintTristanAckermann.Views.ExportSummaryPage"
+             Title="Export Abgeschlossen">
+    <VerticalStackLayout Padding="30" Spacing="15" VerticalOptions="Center">
+        <Image Source="logo.svg" HeightRequest="80" />
+        <Label Text="Datei erfolgreich exportiert!" FontSize="20" HorizontalOptions="Center" TextColor="Green" />
+        
+        <Frame BackgroundColor="#F9F9F9">
+            <VerticalStackLayout Spacing="5">
+                <Label Text="{Binding Settings.FileName, StringFormat='Name: {0}'}" />
+                <Label Text="{Binding Settings.Format, StringFormat='Format: {0}'}" />
+                <Label Text="{Binding Settings.ReminderDate, StringFormat='Erinnerung: {0:dd.MM.yyyy}'}" />
+            </VerticalStackLayout>
+        </Frame>
+
+        <Button Text="Öffnen" />
+        <Button Text="Teilen" />
+        <Button Text="Zurück zum Zeichnen" Clicked="OnBackClicked" BackgroundColor="Gray" />
+    </VerticalStackLayout>
+</ContentPage>

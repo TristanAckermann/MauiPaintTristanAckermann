@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MauiPaintTristanAckermann.ViewModels"
+             x:Class="MauiPaintTristanAckermann.Views.FaqPage"
+             Title="Hilfe &amp; Support">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Häufig gestellte Fragen" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,0,10"/>
+            
+            <Frame BorderColor="{StaticResource Primary}" CornerRadius="10">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Wie speichere ich mein Bild?" FontAttributes="Bold" />
+                    <Label Text="Gehe auf die Export-Seite. Dort kannst du einen Namen vergeben und das Format wählen. Das Bild landet automatisch in deiner Galerie." />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BorderColor="{StaticResource Primary}" CornerRadius="10">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Wo finde ich meine alten Zeichnungen?" FontAttributes="Bold" />
+                    <Label Text="Alle gespeicherten Werke werden in der Galerie-Seite aufgelistet." />
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

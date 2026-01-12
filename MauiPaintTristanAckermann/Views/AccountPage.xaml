@@ -1,0 +1,30 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiPaintTristanAckermann.Views.AccountPage"
+             xmlns:vm="clr-namespace:MauiPaintTristanAckermann.ViewModels"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="25" Spacing="15">
+            <Label Text="Registrierung" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" />
+            
+            <Label Text="E-Mail" />
+            <Entry Text="{Binding Email}" Placeholder="name@beispiel.de" Keyboard="Email" />
+            <Label Text="{Binding EmailError}" TextColor="Red" FontSize="12" IsVisible="{Binding IsEmailValid, Converter={StaticResource InvertedBoolConverter}}" />
+
+            <Label Text="Passwort" />
+            <Entry Text="{Binding Password}" IsPassword="True" />
+
+            <Label Text="Passwort bestätigen" />
+            <Entry Text="{Binding ConfirmPassword}" IsPassword="True" />
+
+            <Label Text="Region" />
+            <Picker ItemsSource="{Binding Regions}" SelectedItem="{Binding SelectedRegion}" Title="Land auswählen" />
+
+            <Button Text="Konto erstellen" 
+                    Command="{Binding RegisterCommand}"
+                    BackgroundColor="{StaticResource Primary}" 
+                    Margin="0,20,0,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

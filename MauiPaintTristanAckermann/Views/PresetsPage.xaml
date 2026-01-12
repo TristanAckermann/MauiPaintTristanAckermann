@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiPaintTristanAckermann.Views.PresetsPage"
+             Title="Pinsel-Optionen">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            
+            <Label Text="Pinsel-Einstellungen" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
+
+            <Border StrokeShape="RoundRectangle 10" HeightRequest="100" BackgroundColor="White" Stroke="LightGray">
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Ellipse WidthRequest="{Binding Size}" 
+                             HeightRequest="{Binding Size}" 
+                             Fill="Black" 
+                             Opacity="{Binding Opacity}" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <Label Text="{Binding Size, StringFormat='Pinselgröße: {0:F0}px'}" />
+            <Slider Minimum="1" Maximum="100" Value="{Binding Size}" />
+
+            <Label Text="{Binding Opacity, StringFormat='Deckkraft: {0:P0}'}" />
+            <Slider Minimum="0" Maximum="1" Value="{Binding Opacity}" />
+
+            <Label Text="Pinselspitze" FontAttributes="Bold" Margin="0,10,0,0" />
+            <VerticalStackLayout Spacing="5">
+                <RadioButton Content="Rund" GroupName="Tips" IsChecked="True" />
+                <RadioButton Content="Quadratisch" GroupName="Tips" />
+                <RadioButton Content="Kalligrafie" GroupName="Tips" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
