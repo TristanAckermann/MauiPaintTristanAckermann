@@ -10,13 +10,27 @@ public class DrawingService : IDrawingService
     private SQLiteAsyncConnection _database;
 
     public event EventHandler UserChanged;
+    public event EventHandler<float> LineWidthChanged;
 
     public ObservableCollection<GalleryItem> GalleryImages { get; } = new ObservableCollection<GalleryItem>();
     public GalleryItem SelectedImage { get; set; }
     
     public string CurrentUser { get; private set; } = "Gast"; 
 
-    public float CurrentLineWidth { get; set; } = 5f;
+    private float _currentLineWidth = 5f;
+    public float CurrentLineWidth
+    {
+        get => _currentLineWidth;
+        set
+        {
+            if (_currentLineWidth != value)
+            {
+                _currentLineWidth = value;
+                LineWidthChanged?.Invoke(this, value);
+            }
+        }
+    }
+    
     public Color CurrentColor { get; set; } = Colors.Black;
 
     public DrawingService()

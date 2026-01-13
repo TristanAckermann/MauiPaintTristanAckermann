@@ -20,6 +20,6 @@ public partial class PresetsViewModel : ObservableObject
 
     partial void OnSizeChanged(float value) 
     {
-        // Hier könnte man globale Pinselwerte im Service updaten
+        _drawingService.CurrentLineWidth = value;
     }
 }

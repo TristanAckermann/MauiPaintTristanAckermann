@@ -10,6 +10,7 @@ public interface IDrawingService
     GalleryItem SelectedImage { get; set; }
     
     event EventHandler UserChanged;
+    event EventHandler<float> LineWidthChanged;
     
     string CurrentUser { get; }
     

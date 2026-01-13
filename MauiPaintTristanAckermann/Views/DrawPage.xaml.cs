@@ -22,16 +22,35 @@
 ﻿        { "Braun", Colors.Brown }, { "Grau", Colors.Gray }
 ﻿    };
 ﻿
-﻿    public DrawPage(IDrawingService drawingService)
-﻿    {
-﻿        InitializeComponent();
-﻿        _drawingService = drawingService;
-﻿        _activeLayer = Layer1;
-﻿        UpdateUndoState();
-﻿    }
-﻿
-﻿    public void ApplyQueryAttributes(IDictionary<string, object> query)
-﻿    {
+﻿        public DrawPage(IDrawingService drawingService)
+﻿        {
+﻿            InitializeComponent();
+﻿            _drawingService = drawingService;
+﻿            _activeLayer = Layer1;
+﻿            UpdateUndoState();
+﻿            
+﻿            // Init from Service
+﻿            if (_activeLayer != null) _activeLayer.LineWidth = _drawingService.CurrentLineWidth;
+﻿            SizeSlider.Value = _drawingService.CurrentLineWidth;
+﻿    
+﻿            _drawingService.LineWidthChanged += OnServiceLineWidthChanged;
+﻿        }
+﻿    
+﻿        private void OnServiceLineWidthChanged(object sender, float newWidth)
+﻿        {
+﻿            // Update UI from Service (e.g. changed in Presets)
+﻿            if (_activeLayer != null) _activeLayer.LineWidth = newWidth;
+﻿            
+﻿            // Update Slider without triggering loop
+﻿            if (Math.Abs(SizeSlider.Value - newWidth) > 0.1)
+﻿            {
+﻿                SizeSlider.ValueChanged -= OnSliderValueChanged;
+﻿                SizeSlider.Value = newWidth;
+﻿                SizeSlider.ValueChanged += OnSliderValueChanged;
+﻿            }
+﻿        }
+﻿    
+﻿        public void ApplyQueryAttributes(IDictionary<string, object> query)﻿    {
 ﻿        if (query.ContainsKey("LoadImage") && query["LoadImage"] is Models.GalleryItem item)
 ﻿        {
 ﻿            LoadImageForEditing(item);
@@ -217,10 +236,29 @@
 ﻿        // Note: Dynamic Plus button reset is handled by it losing the 'selected' styling if another is clicked
 ﻿    }
 ﻿
-﻿    private void OnSliderValueChanged(object sender, ValueChangedEventArgs e) 
-﻿    {
-﻿        if (_activeLayer != null) _activeLayer.LineWidth = (float)e.NewValue;
-﻿    }
+﻿        private void OnSliderValueChanged(object sender, ValueChangedEventArgs e) 
+﻿
+﻿        {
+﻿
+﻿            if (_activeLayer != null)
+﻿
+﻿            {
+﻿
+﻿                _activeLayer.LineWidth = (float)e.NewValue;
+﻿
+﻿                // Sync to service (and thus Presets)
+﻿
+﻿                if (Math.Abs(_drawingService.CurrentLineWidth - (float)e.NewValue) > 0.1)
+﻿
+﻿                {
+﻿
+﻿                    _drawingService.CurrentLineWidth = (float)e.NewValue;
+﻿
+﻿                }
+﻿
+﻿            }
+﻿
+﻿        }
 ﻿
 ﻿    private async void OnClearClicked(object sender, EventArgs e)
 ﻿    {
