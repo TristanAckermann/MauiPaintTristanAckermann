@@ -19,9 +19,9 @@
                 </HorizontalStackLayout>
             </Border>
 
-            <Label Text="{Binding Size, StringFormat='Pinselgröße: {0:F0}px'}" TextColor="{StaticResource TextGray}" />
+            <Label Text="{Binding Size, StringFormat='Pinselgrösse: {0:F0}px'}" TextColor="{StaticResource TextGray}" />
             <Slider Minimum="1" Maximum="100" Value="{Binding Size}" 
-                    MinimumTrackColor="{StaticResource PrimaryAction}" 
+                    MinimumTrackColor="{StaticResource PrimaryAction}"  
                     MaximumTrackColor="{StaticResource PanelBackground}" 
                     ThumbColor="{StaticResource Accent}" />
 

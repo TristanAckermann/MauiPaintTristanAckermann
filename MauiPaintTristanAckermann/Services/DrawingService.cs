@@ -1,55 +1,95 @@
 ﻿using System.Collections.ObjectModel;
 using Microsoft.Maui.Controls;
 using MauiPaintTristanAckermann.Models;
+using SQLite;
 
 namespace MauiPaintTristanAckermann.Services;
 
 public class DrawingService : IDrawingService
 {
-    private readonly List<GalleryItem> _allImages = new();
+    private SQLiteAsyncConnection _database;
 
     public event EventHandler UserChanged;
+    public event EventHandler<float> LineWidthChanged;
 
     public ObservableCollection<GalleryItem> GalleryImages { get; } = new ObservableCollection<GalleryItem>();
     public GalleryItem SelectedImage { get; set; }
     
-    public string CurrentUser { get; private set; } = "Gast"; // Default User
+    public string CurrentUser { get; private set; } = "Gast"; 
 
-    // Standardwerte setzen
-    public float CurrentLineWidth { get; set; } = 5f;
+    private float _currentLineWidth = 5f;
+    public float CurrentLineWidth
+    {
+        get => _currentLineWidth;
+        set
+        {
+            if (_currentLineWidth != value)
+            {
+                _currentLineWidth = value;
+                LineWidthChanged?.Invoke(this, value);
+            }
+        }
+    }
+    
     public Color CurrentColor { get; set; } = Colors.Black;
 
     public DrawingService()
     {
+        InitDatabase();
     }
 
-    public void SetUser(string userName)
+    private async void InitDatabase()
+    {
+        if (_database != null) return;
+
+        var dbPath = Path.Combine(FileSystem.AppDataDirectory, "mauipaint.db3");
+        _database = new SQLiteAsyncConnection(dbPath);
+        await _database.CreateTableAsync<GalleryItem>();
+    }
+
+    public async Task SetUser(string userName)
     {
         if (string.IsNullOrWhiteSpace(userName)) return;
         
         CurrentUser = userName;
-        RefreshGallery();
+        Preferences.Set("mauipaint_user", userName);
+        
+        await RefreshGallery();
         UserChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    private void RefreshGallery()
+    private async Task RefreshGallery()
     {
+        if (_database == null) InitDatabase();
+
         GalleryImages.Clear();
-        foreach (var item in _allImages)
+        
+        var items = await _database.Table<GalleryItem>().Where(i => i.OwnerName == CurrentUser).ToListAsync();
+        
+        foreach (var item in items)
         {
-            if (item.OwnerName == CurrentUser)
+            if (item.ImageData != null)
             {
-                GalleryImages.Add(item);
+                item.Image = ImageSource.FromStream(() => new MemoryStream(item.ImageData));
             }
+            GalleryImages.Add(item);
         }
     }
 
-    public void AddToGallery(GalleryItem item)
+    public async Task AddToGallery(GalleryItem item)
     {
         if (item != null)
         {
+            if (_database == null) InitDatabase();
+
             item.OwnerName = CurrentUser;
-            _allImages.Add(item);
+            await _database.InsertAsync(item);
+            
+            
+            if (item.ImageData != null)
+            {
+                item.Image = ImageSource.FromStream(() => new MemoryStream(item.ImageData));
+            }
             GalleryImages.Add(item);
         }
     }

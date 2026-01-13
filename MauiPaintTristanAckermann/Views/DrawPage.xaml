@@ -9,9 +9,9 @@
     <Grid>
         <!-- Size Selection Overlay (Z-Index High) -->
         <Grid x:Name="SizeSelectionView" ZIndex="10" BackgroundColor="{StaticResource AppBackground}" RowDefinitions="Auto, Auto, Auto, Auto" VerticalOptions="Fill" HorizontalOptions="Fill">
-            <Label Text="Wähle eine Leinwandgröße" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource White}" HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,30" Grid.Row="0" />
+            <Label Text="Wähle eine Leinwandgrösse" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource White}" HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,30" Grid.Row="0" />
             
-            <Button Text="Standard (Portrait)" CommandParameter="Portrait" Clicked="OnSizeSelected" 
+            <Button Text="Standard (Portrait)" CommandParameter="Portrait" Clicked="OnSizeSelected"  
                     BackgroundColor="{StaticResource PrimaryAction}" TextColor="White" CornerRadius="10"
                     WidthRequest="250" HeightRequest="60" Margin="10" Grid.Row="1" />
             

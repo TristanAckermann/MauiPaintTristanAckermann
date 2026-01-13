@@ -7,7 +7,7 @@ namespace MauiPaintTristanAckermann.ViewModels;
 public partial class ProfileSummaryViewModel : BaseViewModel
 {
     [ObservableProperty]
-    private UserProfile user = new(); // Initialisiert
+    private UserProfile user = new(); 
 
     public ProfileSummaryViewModel()
     {
