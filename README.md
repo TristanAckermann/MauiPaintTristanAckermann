@@ -22,15 +22,15 @@ Diagrams for the visually inclined.
 
 ### Class Diagram
 Architecture overview. Singleton Service, ViewModels, SQLite Model.
-![Class Diagram](MauiPaintTristanAckermann/Resources/Images/class_diagram.png)
+![Class Diagram](MauiPaintTristanAckermann/Resources/Images/maui_class_diagram.png)
 
 ### Save Process (Sequence)
 Data flow from Canvas to SQLite Database.
-![Sequence Diagram](MauiPaintTristanAckermann/Resources/Images/sequence_diagram.png)
+![Sequence Diagram](MauiPaintTristanAckermann/Resources/Images/maui_sequence_diagram.png)
 
 ### App Lifecycle (State)
 Application states from Login to Persistent Storage.
-![State Diagram](MauiPaintTristanAckermann/Resources/Images/state_diagram.png)
+![State Diagram](MauiPaintTristanAckermann/Resources/Images/maui_state_diagram.png)
 
 ## License
 MIT. Do whatever.
