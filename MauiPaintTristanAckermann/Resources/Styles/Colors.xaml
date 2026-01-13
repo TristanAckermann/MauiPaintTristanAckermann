@@ -1,19 +1,22 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
     
-    <Color x:Key="Primary">#2B3C51</Color>
-    <Color x:Key="Secondary">#512BD4</Color>
-    <Color x:Key="Tertiary">#E5E5E5</Color>
+    <!-- Design System Colors -->
+    <Color x:Key="AppBackground">#242E38</Color>
+    <Color x:Key="PanelBackground">#727580</Color>
+    <Color x:Key="PrimaryAction">#6B6995</Color>
+    <Color x:Key="Accent">#ACB9EA</Color>
+    <Color x:Key="TextGray">#848A94</Color>
     <Color x:Key="ValidationRed">#D32F2F</Color>
+
+    <!-- Mapping to Standard Keys for compatibility -->
+    <Color x:Key="Primary">#6B6995</Color>
+    <Color x:Key="Secondary">#ACB9EA</Color>
+    <Color x:Key="Tertiary">#242E38</Color>
 
     <Color x:Key="White">#FFFFFF</Color>
     <Color x:Key="Black">#000000</Color>
     <Color x:Key="OffBlack">#1F1F1F</Color>
-    <Color x:Key="MidnightBlue">#191970</Color>
-    <Color x:Key="PrimaryDark">#212121</Color>
-    <Color x:Key="PrimaryDarkText">#FFFFFF</Color>
-    <Color x:Key="SecondaryDarkText">#959595</Color>
-    <Color x:Key="Magenta">#FF00FF</Color>
 
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C2C2C2</Color>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Storage;
 using MauiPaintTristanAckermann.Views;
 using MauiPaintTristanAckermann.ViewModels;
 using MauiPaintTristanAckermann.Services;
@@ -28,12 +29,14 @@ public static class MauiProgram
         builder.Services.AddTransient<AccountViewModel>();
         builder.Services.AddTransient<ProfileSummaryViewModel>();
         builder.Services.AddTransient<GalleryViewModel>();
+        builder.Services.AddTransient<PresetsViewModel>(); 
 
         // PAGES
         builder.Services.AddTransient<DrawPage>();
         builder.Services.AddTransient<AccountPage>();
         builder.Services.AddTransient<ProfileSummaryPage>();
         builder.Services.AddTransient<GalleryPage>();
+        builder.Services.AddTransient<PresetsPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();
