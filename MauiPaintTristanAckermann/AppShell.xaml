@@ -8,16 +8,13 @@
 
     <TabBar>
         <Tab Title="Zeichnen" Icon="brush_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate views:DrawPage}" />
+            <ShellContent Route="DrawPage" ContentTemplate="{DataTemplate views:DrawPage}" />
         </Tab>
         <Tab Title="Galerie" Icon="palette_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate views:GalleryPage}" />
+            <ShellContent Route="GalleryPage" ContentTemplate="{DataTemplate views:GalleryPage}" />
         </Tab>
-        <Tab Title="Pinsel" Icon="brush_icon.png">
+        <Tab Title="Pinsel" Icon="brush.png">
             <ShellContent ContentTemplate="{DataTemplate views:PresetsPage}" />
-        </Tab>
-        <Tab Title="Export" Icon="palette_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate views:ExportPage}" />
         </Tab>
         <Tab Title="Konto" Icon="palette_icon.png">
             <ShellContent ContentTemplate="{DataTemplate views:AccountPage}" />

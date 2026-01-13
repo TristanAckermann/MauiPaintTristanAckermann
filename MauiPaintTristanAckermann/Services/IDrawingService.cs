@@ -1,14 +1,21 @@
 ﻿using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
+using MauiPaintTristanAckermann.Models;
 
 namespace MauiPaintTristanAckermann.Services;
 
 public interface IDrawingService
 {
-    ObservableCollection<ImageSource> GalleryImages { get; }
-    void AddToGallery(ImageSource image);
+    ObservableCollection<GalleryItem> GalleryImages { get; }
+    GalleryItem SelectedImage { get; set; }
     
-    // Diese Properties braucht dein PresetsViewModel unbedingt!
+    event EventHandler UserChanged;
+    
+    string CurrentUser { get; }
+    
     float CurrentLineWidth { get; set; }
     Color CurrentColor { get; set; }
+
+    void SetUser(string userName);
+    void AddToGallery(GalleryItem item);
 }

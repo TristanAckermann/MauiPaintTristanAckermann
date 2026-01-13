@@ -2,33 +2,40 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiPaintTristanAckermann.Views.PresetsPage"
-             Title="Pinsel-Optionen">
+             Title="Pinsel-Optionen"
+             BackgroundColor="{StaticResource AppBackground}">
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
             
-            <Label Text="Pinsel-Einstellungen" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Text="Pinsel-Einstellungen" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{StaticResource White}" />
 
-            <Border StrokeShape="RoundRectangle 10" HeightRequest="100" BackgroundColor="White" Stroke="LightGray">
+            <Border StrokeShape="RoundRectangle 10" HeightRequest="100" BackgroundColor="{StaticResource PanelBackground}" Stroke="{StaticResource TextGray}">
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                     <Ellipse WidthRequest="{Binding Size}" 
                              HeightRequest="{Binding Size}" 
-                             Fill="Black" 
+                             Fill="{StaticResource White}" 
                              Opacity="{Binding Opacity}" />
                 </HorizontalStackLayout>
             </Border>
 
-            <Label Text="{Binding Size, StringFormat='Pinselgröße: {0:F0}px'}" />
-            <Slider Minimum="1" Maximum="100" Value="{Binding Size}" />
+            <Label Text="{Binding Size, StringFormat='Pinselgröße: {0:F0}px'}" TextColor="{StaticResource TextGray}" />
+            <Slider Minimum="1" Maximum="100" Value="{Binding Size}" 
+                    MinimumTrackColor="{StaticResource PrimaryAction}" 
+                    MaximumTrackColor="{StaticResource PanelBackground}" 
+                    ThumbColor="{StaticResource Accent}" />
 
-            <Label Text="{Binding Opacity, StringFormat='Deckkraft: {0:P0}'}" />
-            <Slider Minimum="0" Maximum="1" Value="{Binding Opacity}" />
+            <Label Text="{Binding Opacity, StringFormat='Deckkraft: {0:P0}'}" TextColor="{StaticResource TextGray}" />
+            <Slider Minimum="0" Maximum="1" Value="{Binding Opacity}" 
+                    MinimumTrackColor="{StaticResource PrimaryAction}" 
+                    MaximumTrackColor="{StaticResource PanelBackground}" 
+                    ThumbColor="{StaticResource Accent}"/>
 
-            <Label Text="Pinselspitze" FontAttributes="Bold" Margin="0,10,0,0" />
+            <Label Text="Pinselspitze" FontAttributes="Bold" Margin="0,10,0,0" TextColor="{StaticResource White}" />
             <VerticalStackLayout Spacing="5">
-                <RadioButton Content="Rund" GroupName="Tips" IsChecked="True" />
-                <RadioButton Content="Quadratisch" GroupName="Tips" />
-                <RadioButton Content="Kalligrafie" GroupName="Tips" />
+                <RadioButton Content="Rund" GroupName="Tips" IsChecked="True" TextColor="{StaticResource White}" />
+                <RadioButton Content="Quadratisch" GroupName="Tips" TextColor="{StaticResource White}" />
+                <RadioButton Content="Kalligrafie" GroupName="Tips" TextColor="{StaticResource White}" />
             </VerticalStackLayout>
 
         </VerticalStackLayout>

@@ -3,59 +3,46 @@ using CommunityToolkit.Mvvm.Input;
 using MauiPaintTristanAckermann.Services;
 using MauiPaintTristanAckermann.Models;
 using MauiPaintTristanAckermann.Views;
+using System.Text.RegularExpressions;
 
 namespace MauiPaintTristanAckermann.ViewModels;
 
 public partial class AccountViewModel : BaseViewModel
 {
-    private readonly ValidationService _val;
+    private readonly IDrawingService _drawingService;
 
-    public AccountViewModel(ValidationService val)
+    public AccountViewModel(IDrawingService drawingService)
     {
-        _val = val;
-        Title = "Konto erstellen";
-        
-        
-        email = string.Empty;
-        password = string.Empty;
-        confirmPassword = string.Empty;
-        selectedRegion = string.Empty;
+        _drawingService = drawingService;
+        Title = "Benutzerprofil";
+        userName = _drawingService.CurrentUser; // Default to current
     }
 
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(RegisterCommand))]
-    [NotifyPropertyChangedFor(nameof(IsEmailValid))]
-    [NotifyPropertyChangedFor(nameof(EmailError))]
-    private string email;
+    [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
+    [NotifyPropertyChangedFor(nameof(UserNameError))]
+    private string userName;
 
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(RegisterCommand))]
-    private string password;
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(RegisterCommand))]
-    private string confirmPassword;
-
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(RegisterCommand))]
-    private string selectedRegion;
-
-    public List<string> Regions => new() { "Deutschland", "Schweiz", "Österreich" };
-
-    public bool IsEmailValid => _val.ValidateEmail(Email);
-    
-    public string EmailError => IsEmailValid ? "" : "Ungültige E-Mail Adresse";
-
-    private bool CanRegister => IsEmailValid && 
-                                !string.IsNullOrEmpty(Password) && 
-                                Password == ConfirmPassword && 
-                                !string.IsNullOrEmpty(SelectedRegion);
-
-    [RelayCommand(CanExecute = nameof(CanRegister))]
-    private async Task Register()
+    public string UserNameError 
     {
-        var user = new UserProfile { Email = Email, Region = SelectedRegion };
-        var navParam = new Dictionary<string, object> { { "User", user } };
-        await Shell.Current.GoToAsync(nameof(ProfileSummaryPage), navParam);
+        get
+        {
+            if (string.IsNullOrWhiteSpace(UserName)) return "";
+            if (!Regex.IsMatch(UserName, @"^[a-zA-Z\säöüÄÖÜß]+$"))
+                return "Nur Buchstaben erlaubt!";
+            return "";
+        }
+    }
+
+    private bool CanLogin => !string.IsNullOrWhiteSpace(UserName) && string.IsNullOrEmpty(UserNameError);
+
+    [RelayCommand(CanExecute = nameof(CanLogin))]
+    private async Task Login()
+    {
+        _drawingService.SetUser(UserName);
+        
+        await Shell.Current.DisplayAlert("Willkommen", $"Du bist jetzt als {UserName} angemeldet.", "OK");
+        
+        await Shell.Current.GoToAsync("///GalleryPage");
     }
 }

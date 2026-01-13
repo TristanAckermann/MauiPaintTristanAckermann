@@ -4,49 +4,92 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="MauiPaintTristanAckermann.Views.DrawPage"
              Title="Zeichnen"
-             BackgroundColor="#E0E0E0">
+             BackgroundColor="{StaticResource AppBackground}">
 
-    <Grid RowDefinitions="*, Auto" Padding="15">
-        <Grid Grid.Row="0" ColumnDefinitions="*, 70" ColumnSpacing="10">
-            <Frame x:Name="CanvasFrame" Grid.Column="0" Padding="0" CornerRadius="5" HasShadow="True" BorderColor="Transparent" BackgroundColor="White">
-                <Grid x:Name="LayerContainer">
-                    <toolkit:DrawingView x:Name="Layer1" 
-                                         LineColor="Black" 
-                                         LineWidth="5" 
-                                         IsMultiLineModeEnabled="True" 
-                                         BackgroundColor="White" />
-                </Grid>
-            </Frame>
-
-            <ScrollView Grid.Column="1">
-                <VerticalStackLayout x:Name="LayerButtonList" Spacing="10">
-                    <ImageButton Source="layer_plus.png" WidthRequest="50" HeightRequest="50" Padding="8" Clicked="OnAddLayerClicked">
-                        <ImageButton.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="#00CED1" />
-                        </ImageButton.Behaviors>
-                    </ImageButton>
-                    
-                    <ImageButton x:Name="BtnLayer1" Source="layers.png" WidthRequest="50" HeightRequest="50" Padding="8" BackgroundColor="#222222" Clicked="OnLayerButtonClicked" CommandParameter="1">
-                        <ImageButton.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="#00CED1" />
-                        </ImageButton.Behaviors>
-                    </ImageButton>
-                </VerticalStackLayout>
-            </ScrollView>
+    <Grid>
+        <!-- Size Selection Overlay (Z-Index High) -->
+        <Grid x:Name="SizeSelectionView" ZIndex="10" BackgroundColor="{StaticResource AppBackground}" RowDefinitions="Auto, Auto, Auto, Auto" VerticalOptions="Fill" HorizontalOptions="Fill">
+            <Label Text="Wähle eine Leinwandgröße" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource White}" HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,30" Grid.Row="0" />
+            
+            <Button Text="Standard (Portrait)" CommandParameter="Portrait" Clicked="OnSizeSelected" 
+                    BackgroundColor="{StaticResource PrimaryAction}" TextColor="White" CornerRadius="10"
+                    WidthRequest="250" HeightRequest="60" Margin="10" Grid.Row="1" />
+            
+            <Button Text="Quadratisch (1:1)" CommandParameter="Square" Clicked="OnSizeSelected" 
+                    BackgroundColor="{StaticResource PrimaryAction}" TextColor="White" CornerRadius="10"
+                    WidthRequest="250" HeightRequest="60" Margin="10" Grid.Row="2" />
+            
+            <Button Text="Landschaft (4:3)" CommandParameter="Landscape" Clicked="OnSizeSelected" 
+                    BackgroundColor="{StaticResource PrimaryAction}" TextColor="White" CornerRadius="10"
+                    WidthRequest="250" HeightRequest="60" Margin="10" Grid.Row="3" />
+            
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer />
+            </Grid.GestureRecognizers>
         </Grid>
 
-        <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="10">
-            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                <Slider x:Name="SizeSlider" Minimum="1" Maximum="50" Value="5" WidthRequest="180" ValueChanged="OnSliderValueChanged" />
-                <Label Text="{Binding Source={x:Reference SizeSlider}, Path=Value, StringFormat='{0:F0}'}" VerticalOptions="Center" TextColor="Black" />
-            </HorizontalStackLayout>
+        <!-- Main Layout: Sidebar (Left) + Content (Right) -->
+        <Grid ColumnDefinitions="70, *">
+            
+            <!-- Left Sidebar: Layer Management -->
+            <Grid Grid.Column="0" BackgroundColor="{StaticResource PanelBackground}" Padding="5">
+                <ScrollView>
+                    <VerticalStackLayout x:Name="LayerButtonList" Spacing="10" HorizontalOptions="Center">
+                        <ImageButton Source="layer_plus.png" WidthRequest="40" HeightRequest="40" Padding="8" Clicked="OnAddLayerClicked" BackgroundColor="{StaticResource PrimaryAction}" CornerRadius="5" />
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
 
-            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                <Button WidthRequest="35" HeightRequest="35" CornerRadius="17" BackgroundColor="Black" Clicked="OnColorSelected" />
-                <Button WidthRequest="35" HeightRequest="35" CornerRadius="17" BackgroundColor="Red" Clicked="OnColorSelected" />
-                <Button WidthRequest="35" HeightRequest="35" CornerRadius="17" BackgroundColor="Blue" Clicked="OnColorSelected" />
-                <Label Text="|" VerticalOptions="Center" Margin="5,0" />
-                <Button Text="💾" WidthRequest="45" HeightRequest="45" CornerRadius="22" BackgroundColor="#4CAF50" Clicked="OnSaveClicked" />
-                <Button Text="🗑️" WidthRequest="45" HeightRequest="45" CornerRadius="22" BackgroundColor="#D32F2F" Clicked="OnClearClicked" />
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
+            <!-- Main Content Area -->
+            <Grid Grid.Column="1" RowDefinitions="*, Auto" Padding="10">
+                
+                <!-- Drawing Canvas Area -->
+                <Border x:Name="CanvasFrame" Grid.Row="0" Padding="0" StrokeShape="RoundRectangle 5" Stroke="{StaticResource TextGray}" BackgroundColor="White"
+                       VerticalOptions="Center" HorizontalOptions="Center">
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="2,2" Radius="5" Opacity="0.2" />
+                    </Border.Shadow>
+                    <Grid>
+                        <Image x:Name="BackgroundImage" Aspect="AspectFit" VerticalOptions="Fill" HorizontalOptions="Fill" InputTransparent="True" />
+                        <Grid x:Name="LayerContainer">
+                            <toolkit:DrawingView x:Name="Layer1" 
+                                                 LineColor="Black" 
+                                                 LineWidth="5" 
+                                                 IsMultiLineModeEnabled="True" 
+                                                 BackgroundColor="Transparent" />
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- Bottom Toolbar -->
+                <VerticalStackLayout Grid.Row="1" Padding="10" Spacing="15">
+                    
+                    <!-- Size Slider -->
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Slider x:Name="SizeSlider" Minimum="1" Maximum="50" Value="5" WidthRequest="180" ValueChanged="OnSliderValueChanged" 
+                                MinimumTrackColor="{StaticResource PrimaryAction}" ThumbColor="{StaticResource Accent}" />
+                        <Label Text="{Binding Source={x:Reference SizeSlider}, Path=Value, StringFormat='{0:F0}'}" VerticalOptions="Center" TextColor="{StaticResource TextGray}" />
+                    </HorizontalStackLayout>
+
+                    <!-- Color & Actions -->
+                    <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <!-- Colors -->
+                        <Button x:Name="ColorBlack" WidthRequest="25" HeightRequest="25" CornerRadius="12" BackgroundColor="Black" Clicked="OnColorSelected" BorderColor="{StaticResource Accent}" BorderWidth="2" />
+                        <Button x:Name="ColorRed" WidthRequest="25" HeightRequest="25" CornerRadius="12" BackgroundColor="Red" Clicked="OnColorSelected" BorderColor="{StaticResource TextGray}" BorderWidth="1"/>
+                        <Button x:Name="ColorBlue" WidthRequest="25" HeightRequest="25" CornerRadius="12" BackgroundColor="Blue" Clicked="OnColorSelected" BorderColor="{StaticResource TextGray}" BorderWidth="1"/>
+                        
+                        <!-- Color Picker Button -->
+                        <Button Text="+" WidthRequest="25" HeightRequest="25" CornerRadius="12" BackgroundColor="{StaticResource PanelBackground}" TextColor="{StaticResource White}" Clicked="OnPickColorClicked" BorderColor="{StaticResource TextGray}" BorderWidth="1" Padding="0"/>
+
+                        <BoxView WidthRequest="1" Color="{StaticResource TextGray}" VerticalOptions="Fill" Margin="5,0" />
+                        
+                        <!-- Actions -->
+                        <ImageButton Source="undo.png" WidthRequest="45" HeightRequest="45" CornerRadius="22" BackgroundColor="{StaticResource PrimaryAction}" Clicked="OnUndoClicked" Padding="8" />
+                        <ImageButton Source="save.png" WidthRequest="45" HeightRequest="45" CornerRadius="22" BackgroundColor="{StaticResource PrimaryAction}" Clicked="OnSaveClicked" Padding="8" />
+                        <ImageButton Source="trash.png" WidthRequest="45" HeightRequest="45" CornerRadius="22" BackgroundColor="{StaticResource ValidationRed}" Clicked="OnClearClicked" Padding="8" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>
