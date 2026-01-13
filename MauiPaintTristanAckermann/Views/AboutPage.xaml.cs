@@ -12,7 +12,7 @@ public partial class AboutPage : ContentPage
 
     private async void OnLinkClicked(object sender, EventArgs e)
     {
-        // Beispiel für das Öffnen eines externen Links
+      
         await Launcher.Default.OpenAsync("https://github.com/TristanAckermann");
     }
 }

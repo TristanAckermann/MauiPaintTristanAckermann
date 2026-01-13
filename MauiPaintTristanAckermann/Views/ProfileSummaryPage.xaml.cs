@@ -16,11 +16,11 @@ public partial class ProfileSummaryPage : ContentPage
     public ProfileSummaryPage()
     {
         InitializeComponent();
-        BindingContext = this; // Wir binden hier direkt an die Property in dieser Klasse
+        BindingContext = this;
     }
 
     private async void OnGoToDrawClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("//DrawPage"); // Navigiert zurück zum Haupt-Tab
+        await Shell.Current.GoToAsync("//DrawPage"); 
     }
 }

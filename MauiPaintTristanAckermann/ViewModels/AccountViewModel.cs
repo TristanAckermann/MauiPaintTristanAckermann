@@ -28,7 +28,7 @@ public partial class AccountViewModel : BaseViewModel
         get
         {
             if (string.IsNullOrWhiteSpace(UserName)) return "";
-            if (!Regex.IsMatch(UserName, @"^[a-zA-Z\säöüÄÖÜß]+$"))
+            if (!Regex.IsMatch(UserName, @"^[a-zA-Z\säöüÄÖÜ]+$"))
                 return "Nur Buchstaben erlaubt!";
             return "";
         }

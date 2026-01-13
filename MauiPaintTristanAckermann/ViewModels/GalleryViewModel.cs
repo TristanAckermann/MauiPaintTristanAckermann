@@ -12,7 +12,7 @@ public partial class GalleryViewModel : ObservableObject
 {
     private readonly IDrawingService _drawingService;
 
-    // Die View bindet an diese Eigenschaft
+    
     public ObservableCollection<GalleryItem> GalleryImages => _drawingService.GalleryImages;
 
     public string CurrentUserText => $"Galerie von: {_drawingService.CurrentUser}";

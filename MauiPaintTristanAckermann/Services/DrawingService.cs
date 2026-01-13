@@ -85,7 +85,7 @@ public class DrawingService : IDrawingService
             item.OwnerName = CurrentUser;
             await _database.InsertAsync(item);
             
-            // UI Update (Main Thread)
+            
             if (item.ImageData != null)
             {
                 item.Image = ImageSource.FromStream(() => new MemoryStream(item.ImageData));

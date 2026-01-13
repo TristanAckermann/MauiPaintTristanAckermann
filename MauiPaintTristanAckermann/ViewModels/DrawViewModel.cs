@@ -15,7 +15,7 @@ public partial class DrawViewModel : BaseViewModel
     [RelayCommand]
     private async Task Save() 
     {
-        // Logik zum Speichern in Galerie
+        
         await Shell.Current.DisplayAlert("Gespeichert", "Bild in Galerie abgelegt", "OK");
     }
 }

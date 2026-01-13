@@ -8,7 +8,7 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
 
-        // Hier müssen alle Seiten registriert werden, die über "GoToAsync" aufgerufen werden
+        
         Routing.RegisterRoute(nameof(ProfileSummaryPage), typeof(ProfileSummaryPage));
         Routing.RegisterRoute(nameof(AccountPage), typeof(AccountPage));
  
