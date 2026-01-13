@@ -107,17 +107,16 @@
 ﻿                await stream.CopyToAsync(memoryStream);
 ﻿                byte[] data = memoryStream.ToArray();
 ﻿                
-﻿                var galleryItem = new Models.GalleryItem
-﻿                {
-﻿                    Image = ImageSource.FromStream(() => new MemoryStream(data)),
-﻿                    ImageData = data,
-﻿                    CreatedAt = DateTime.Now
-﻿                };
-﻿
-﻿                                _drawingService.AddToGallery(galleryItem);
-﻿                                
-﻿                                if (await DisplayAlert("Saved", "Bild gespeichert! Zeichnung löschen?", "Ja", "Nein"))
+﻿                                var galleryItem = new Models.GalleryItem
 ﻿                                {
+﻿                                    Image = ImageSource.FromStream(() => new MemoryStream(data)),
+﻿                                    ImageData = data,
+﻿                                    CreatedAt = DateTime.Now
+﻿                                };
+﻿                
+﻿                                await _drawingService.AddToGallery(galleryItem);
+﻿                                
+﻿                                if (await DisplayAlert("Saved", "Bild gespeichert! Zeichnung löschen?", "Ja", "Nein"))﻿                                {
 ﻿                                    ResetDrawingSession();
 ﻿                                }
 ﻿                            }

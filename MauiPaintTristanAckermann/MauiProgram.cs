@@ -37,6 +37,7 @@ public static class MauiProgram
         builder.Services.AddTransient<ProfileSummaryPage>();
         builder.Services.AddTransient<GalleryPage>();
         builder.Services.AddTransient<PresetsPage>();
+        builder.Services.AddTransient<LoginPage>(); // New Login Page
 
 #if DEBUG
         builder.Logging.AddDebug();
