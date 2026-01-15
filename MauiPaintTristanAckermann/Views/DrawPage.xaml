@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:MauiPaintTristanAckermann.ViewModels"
              x:Class="MauiPaintTristanAckermann.Views.DrawPage"
+             x:DataType="vm:DrawViewModel"
              Title="Zeichnen"
              BackgroundColor="{StaticResource AppBackground}">
 
@@ -46,9 +48,6 @@
                 <!-- Drawing Canvas Area -->
                 <Border x:Name="CanvasFrame" Grid.Row="0" Padding="0" StrokeShape="RoundRectangle 5" Stroke="{StaticResource TextGray}" BackgroundColor="White"
                        VerticalOptions="Center" HorizontalOptions="Center">
-                    <Border.Shadow>
-                        <Shadow Brush="Black" Offset="2,2" Radius="5" Opacity="0.2" />
-                    </Border.Shadow>
                     <Grid>
                         <Image x:Name="BackgroundImage" Aspect="AspectFit" VerticalOptions="Fill" HorizontalOptions="Fill" InputTransparent="True" />
                         <Grid x:Name="LayerContainer">

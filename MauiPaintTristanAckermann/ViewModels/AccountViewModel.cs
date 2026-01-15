@@ -10,12 +10,14 @@ namespace MauiPaintTristanAckermann.ViewModels;
 public partial class AccountViewModel : BaseViewModel
 {
     private readonly IDrawingService _drawingService;
+    private readonly IServiceProvider _serviceProvider;
 
-    public AccountViewModel(IDrawingService drawingService)
+    public AccountViewModel(IDrawingService drawingService, IServiceProvider serviceProvider)
     {
         _drawingService = drawingService;
+        _serviceProvider = serviceProvider;
         Title = "Benutzerprofil";
-        userName = _drawingService.CurrentUser; // Default to current
+        userName = _drawingService.CurrentUser; 
     }
 
     [ObservableProperty]
@@ -28,7 +30,7 @@ public partial class AccountViewModel : BaseViewModel
         get
         {
             if (string.IsNullOrWhiteSpace(UserName)) return "";
-            if (!Regex.IsMatch(UserName, @"^[a-zA-Z\säöüÄÖÜß]+$"))
+            if (!Regex.IsMatch(UserName, @"^[a-zA-Z\säöüÄÖÜ]+$"))
                 return "Nur Buchstaben erlaubt!";
             return "";
         }
@@ -39,10 +41,27 @@ public partial class AccountViewModel : BaseViewModel
     [RelayCommand(CanExecute = nameof(CanLogin))]
     private async Task Login()
     {
-        _drawingService.SetUser(UserName);
+        await _drawingService.SetUser(UserName);
         
-        await Shell.Current.DisplayAlert("Willkommen", $"Du bist jetzt als {UserName} angemeldet.", "OK");
         
-        await Shell.Current.GoToAsync("///GalleryPage");
+        if (Application.Current.MainPage is not AppShell)
+        {
+            Application.Current.MainPage = new AppShell();
+        }
+        else
+        {
+            
+            await Shell.Current.DisplayAlert("Willkommen", $"Du bist jetzt als {UserName} angemeldet.", "OK");
+            await Shell.Current.GoToAsync("///GalleryPage");
+        }
+    }
+
+    [RelayCommand]
+    private void Logout()
+    {
+        _drawingService.Logout();
+        
+        
+        Application.Current.MainPage = _serviceProvider.GetRequiredService<LoginPage>();
     }
 }
